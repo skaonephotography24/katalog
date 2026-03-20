@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Produk 1",
+    "price": "Rp 100.000",
+    "image": "https://via.placeholder.com/300",
+    "description": "Ini adalah deskripsi produk 1.",
+    "gallery": [
+      "https://via.placeholder.com/400",
+      "https://via.placeholder.com/401"
+    ]
+  },
+  {
+    "title": "Produk 2",
+    "price": "Rp 200.000",
+    "image": "https://via.placeholder.com/300",
+    "description": "Ini adalah deskripsi produk 2.",
+    "gallery": [
+      "https://via.placeholder.com/402",
+      "https://via.placeholder.com/403"
+    ]
+  }
+]
