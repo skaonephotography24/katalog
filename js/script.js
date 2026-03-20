@@ -24,7 +24,7 @@ const produkData = [
         nama: 'Paket Akad 2',
         harga: 'Rp 320.000',
         thumbnail: 'images/tas1-thumb.jpg',
-        deskripsi: 'Tas ransel dengan kapasitas besar, cocok untuk sekolah, kuliah, atau traveling.',
+        deskripsi: 'Paket dokumentasi akad pernikahan lengkap dengan album foto magnetik yang keren dan modern',
         spesifikasi: [
             { label: 'Material', value: 'Polyester 600D' },
             { label: 'Kapasitas', value: '40 Liter' },
