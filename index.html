@@ -6,7 +6,6 @@
 <title>SkaOne Photography</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
 <style>
@@ -14,7 +13,6 @@ body {
   font-family: 'Poppins', sans-serif;
   background: #f8fafc;
 }
-
 .brand {
   font-family: 'Playfair Display', serif;
 }
@@ -36,7 +34,6 @@ body {
   from { transform: scale(1); }
   to { transform: scale(1.1); }
 }
-
 .cinematic-overlay::after {
   content: "";
   position: absolute;
@@ -50,17 +47,11 @@ body {
   animation: cinematicFade 0.5s ease;
 }
 @keyframes cinematicFade {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity:0; transform:translateY(30px) scale(0.95); }
+  to { opacity:1; transform:translateY(0) scale(1); }
 }
 
-/* SLIDER SMOOTH */
+/* SLIDER */
 #sliderTrack {
   transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -91,30 +82,19 @@ body {
   <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL DETAIL -->
 <div id="detailModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-
   <div class="modal-box bg-white rounded-3xl max-w-lg w-full p-6 relative">
 
-    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 text-xl">
-      ✕
-    </button>
+    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 text-xl">✕</button>
 
     <!-- SLIDER -->
     <div class="relative mb-4 overflow-hidden rounded-xl">
 
-      <div id="sliderTrack" class="flex">
-      </div>
+      <div id="sliderTrack" class="flex"></div>
 
-      <button onclick="prevSlide()"
-        class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-2 rounded-full">
-        ❮
-      </button>
-
-      <button onclick="nextSlide()"
-        class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-2 rounded-full">
-        ❯
-      </button>
+      <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-2 rounded-full">❮</button>
+      <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-2 rounded-full">❯</button>
 
     </div>
 
@@ -126,30 +106,32 @@ body {
     <p id="modalPrice" class="text-2xl font-bold text-emerald-600 mb-6"></p>
 
     <div class="flex gap-3">
-      <button id="btnOrder"
-        class="flex-1 bg-red-500 text-white py-3 rounded-xl">
-        Order Now
-      </button>
-
-      <button onclick="closeModal()"
-        class="flex-1 bg-blue-500 text-white py-3 rounded-xl">
-        Kembali
-      </button>
+      <button id="btnOrder" class="flex-1 bg-red-500 text-white py-3 rounded-xl">Order Now</button>
+      <button onclick="closeModal()" class="flex-1 bg-blue-500 text-white py-3 rounded-xl">Kembali</button>
     </div>
 
   </div>
+</div>
+
+<!-- FULLSCREEN -->
+<div id="fullscreenGallery" class="hidden fixed inset-0 bg-black z-[999] flex items-center justify-center">
+  <button onclick="closeFullscreen()" class="absolute top-5 right-5 text-white text-2xl z-50">✕</button>
+  <img id="fullscreenImage" class="max-w-full max-h-full transition-transform duration-300">
 </div>
 
 <script>
 let products = [];
 let currentProduct = null;
 
-/* SLIDER STATE */
+/* SLIDER */
 let currentSlide = 0;
 let currentGallery = [];
 let autoSlideInterval = null;
 
-/* LOAD DATA */
+/* FULLSCREEN */
+let zoomLevel = 1;
+
+/* LOAD */
 async function loadProducts() {
   const res = await fetch('data.json');
   const data = await res.json();
@@ -168,7 +150,7 @@ function renderCatalog(data) {
 
   grid.innerHTML = data.map(p => `
     <div onclick="showDetail(${p.id})"
-         class="card bg-white rounded-2xl p-4 cursor-pointer">
+      class="card bg-white rounded-2xl p-4 cursor-pointer">
 
       <img src="${p.image}" class="w-full h-48 object-cover rounded-xl mb-3">
 
@@ -198,7 +180,7 @@ function showDetail(id) {
   document.getElementById('modalPrice').textContent =
     "Rp " + p.price.toLocaleString('id-ID');
 
-  const gallery = p.gallery && p.gallery.length ? p.gallery : [p.image.replace("images/","")];
+  const gallery = p.gallery?.length ? p.gallery : [p.image.replace("images/","")];
   initSlider(gallery);
 
   document.getElementById('detailModal').classList.remove('hidden');
@@ -212,15 +194,17 @@ function initSlider(gallery) {
   currentGallery = gallery;
   currentSlide = 0;
 
-  track.innerHTML = gallery.map(img => `
+  track.innerHTML = gallery.map((img,i) => `
     <div class="w-full flex-shrink-0 h-56 relative cinematic-overlay">
-      <img src="images/${img}" class="cinematic-img w-full h-full object-cover">
+      <img src="images/${img}"
+           onclick="openFullscreen(${i})"
+           class="cinematic-img w-full h-full object-cover cursor-zoom-in">
     </div>
   `).join('');
 
-  dots.innerHTML = gallery.map((_, i) => `
+  dots.innerHTML = gallery.map((_,i)=>`
     <div onclick="goToSlide(${i})"
-      class="dot w-2.5 h-2.5 rounded-full bg-gray-300 cursor-pointer transition"></div>
+      class="dot w-2.5 h-2.5 rounded-full bg-gray-300"></div>
   `).join('');
 
   updateSlider();
@@ -231,111 +215,86 @@ function initSlider(gallery) {
 
 /* UPDATE */
 function updateSlider() {
-  const track = document.getElementById('sliderTrack');
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  document.getElementById('sliderTrack').style.transform =
+    `translateX(-${currentSlide*100}%)`;
 
-  updateDots();
-
-  // reset animasi cinematic
-  document.querySelectorAll('.cinematic-img').forEach(img => {
-    img.style.animation = 'none';
-    img.offsetHeight;
-    img.style.animation = '';
+  document.querySelectorAll('#sliderDots .dot').forEach((dot,i)=>{
+    dot.classList.toggle('bg-black', i===currentSlide);
+    dot.classList.toggle('scale-125', i===currentSlide);
   });
-}
 
-function updateDots() {
-  const dots = document.querySelectorAll('#sliderDots .dot');
-
-  dots.forEach((dot, i) => {
-    if (i === currentSlide) {
-      dot.classList.add('bg-black','scale-125');
-      dot.classList.remove('bg-gray-300');
-    } else {
-      dot.classList.remove('bg-black','scale-125');
-      dot.classList.add('bg-gray-300');
-    }
+  document.querySelectorAll('.cinematic-img').forEach(img=>{
+    img.style.animation='none'; img.offsetHeight; img.style.animation='';
   });
 }
 
 /* NAV */
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % currentGallery.length;
-  updateSlider();
-}
-function prevSlide() {
-  currentSlide = (currentSlide - 1 + currentGallery.length) % currentGallery.length;
-  updateSlider();
-}
-function goToSlide(i) {
-  currentSlide = i;
-  updateSlider();
-}
+function nextSlide(){ currentSlide=(currentSlide+1)%currentGallery.length; updateSlider(); }
+function prevSlide(){ currentSlide=(currentSlide-1+currentGallery.length)%currentGallery.length; updateSlider(); }
+function goToSlide(i){ currentSlide=i; updateSlider(); }
 
 /* AUTO */
-function startAutoSlide() {
-  clearInterval(autoSlideInterval);
-  autoSlideInterval = setInterval(nextSlide, 3000);
-}
-function stopAutoSlide() {
-  clearInterval(autoSlideInterval);
-}
+function startAutoSlide(){ clearInterval(autoSlideInterval); autoSlideInterval=setInterval(nextSlide,3000); }
+function stopAutoSlide(){ clearInterval(autoSlideInterval); }
 
 /* SWIPE */
-function enableSwipe() {
-  const slider = document.getElementById('sliderTrack');
-
-  let startX = 0;
-  let endX = 0;
-
-  slider.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-  });
-
-  slider.addEventListener('touchend', e => {
-    endX = e.changedTouches[0].clientX;
-
-    if (startX - endX > 50) nextSlide();
-    if (endX - startX > 50) prevSlide();
+function enableSwipe(){
+  const el=document.getElementById('sliderTrack');
+  let start=0;
+  el.addEventListener('touchstart',e=>start=e.touches[0].clientX);
+  el.addEventListener('touchend',e=>{
+    let end=e.changedTouches[0].clientX;
+    if(start-end>50) nextSlide();
+    if(end-start>50) prevSlide();
   });
 }
 
-/* HOVER PAUSE */
-function enableHoverPause() {
-  const slider = document.getElementById('sliderTrack');
-
-  slider.addEventListener('mouseenter', stopAutoSlide);
-  slider.addEventListener('mouseleave', startAutoSlide);
+/* HOVER */
+function enableHoverPause(){
+  const el=document.getElementById('sliderTrack');
+  el.addEventListener('mouseenter',stopAutoSlide);
+  el.addEventListener('mouseleave',startAutoSlide);
 }
 
-/* CLOSE */
-function closeModal() {
-  document.getElementById('detailModal').classList.add('hidden');
-  stopAutoSlide();
+/* FULLSCREEN */
+function openFullscreen(i){
+  currentSlide=i;
+  updateFullscreen();
+  document.getElementById('fullscreenGallery').classList.remove('hidden');
+}
+function closeFullscreen(){
+  document.getElementById('fullscreenGallery').classList.add('hidden');
+  zoomLevel=1; applyZoom();
+}
+function updateFullscreen(){
+  document.getElementById('fullscreenImage').src="images/"+currentGallery[currentSlide];
+}
+function applyZoom(){
+  document.getElementById('fullscreenImage').style.transform=`scale(${zoomLevel})`;
+}
+
+/* ZOOM */
+document.getElementById('fullscreenImage').addEventListener('wheel',e=>{
+  e.preventDefault();
+  zoomLevel+= e.deltaY<0 ? 0.1 : -0.1;
+  zoomLevel=Math.max(1,Math.min(3,zoomLevel));
+  applyZoom();
+});
+
+/* SEARCH */
+function filterProducts(){
+  const k=document.getElementById('searchInput').value.toLowerCase();
+  renderCatalog(products.filter(p=>p.title.toLowerCase().includes(k)));
 }
 
 /* ORDER */
-document.getElementById('btnOrder').onclick = function() {
-  if (!currentProduct) return;
-
-  const msg = `Halo, saya ingin pesan:\n${currentProduct.title}\nRp ${currentProduct.price.toLocaleString('id-ID')}`;
-
+document.getElementById('btnOrder').onclick=function(){
+  if(!currentProduct) return;
+  const msg=`Halo, saya ingin pesan:\n${currentProduct.title}`;
   window.open(`https://wa.me/6285712130175?text=${encodeURIComponent(msg)}`);
 };
 
-/* SEARCH */
-function filterProducts() {
-  const keyword = document.getElementById('searchInput').value.toLowerCase();
-
-  const filtered = products.filter(p =>
-    p.title.toLowerCase().includes(keyword) ||
-    p.description.toLowerCase().includes(keyword)
-  );
-
-  renderCatalog(filtered);
-}
-
-window.onload = loadProducts;
+window.onload=loadProducts;
 </script>
 
 </body>
