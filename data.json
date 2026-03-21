@@ -19,5 +19,33 @@
     "price": 800000,
     "image": "wedding1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | File dikirim via Google Drive"
+  },
+  {
+    "id": 4,
+    "title": "Paket Wedding 2",
+    "price": 1000000,
+    "image": "wedding2.jpg",
+    "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Magnetic Album Foto | Cetak 10R plus Figura | File dikirim via Google Drive | Bonus Flasdisk"
+  },
+  {
+    "id": 5,
+    "title": "Prewedding",
+    "price": 700000,
+    "image": "prewedding.jpg",
+    "description": "1 Fotografer | 1 Crew | Unlimited foto | 2 jam sesi pemotretan | Cetak foto 10R plus Figura | File dikirim via Google Drive"
+  },
+  {
+    "id": 6,
+    "title": "Engagement/Lamaran",
+    "price": 500000,
+    "image": "lamaran.jpg",
+    "description": "1 Fotografer | 1 Crew | Unlimited foto | 2 jam sesi pemotretan | File dikirim via Google Drive"
+  },
+  {
+    "id": 7,
+    "title": "Paket Ngunduh Mantu/Boyongan 1",
+    "price": 600000,
+    "image": "boyongan.jpg",
+    "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | File dikirim via Google Drive"
   }
 ]
