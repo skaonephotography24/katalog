@@ -45,7 +45,14 @@
     "id": 7,
     "title": "Paket Ngunduh Mantu/Boyongan 1",
     "price": 600000,
-    "image": "boyongan.jpg",
+    "image": "boyongan1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | File dikirim via Google Drive"
+  },
+  {
+    "id": 8,
+    "title": "Paket Ngunduh Mantu/Boyongan 2",
+    "price": 750000,
+    "image": "boyongan2.jpg",
+    "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Album Foto magnetic | File dikirim via Google Drive"
   }
 ]
