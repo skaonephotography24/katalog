@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Katalog Produk</title>
+<title>SkaOne Photography</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
@@ -12,42 +12,17 @@
 <style>
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #f8fafc, #eef2f7);
+  background: #f8fafc;
 }
-
-/* Judul Brand */
-.brand-title {
+.brand {
   font-family: 'Playfair Display', serif;
 }
-
-/* CARD */
 .card {
-  transition: all 0.35s ease;
-  transform: translateY(20px);
-  opacity: 0;
-  animation: fadeUp 0.6s ease forwards;
-  cursor: pointer;
+  transition: all 0.3s ease;
 }
 .card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 25px 40px rgba(0,0,0,0.08);
-}
-
-@keyframes fadeUp {
-  to { transform: translateY(0); opacity: 1; }
-}
-
-/* MODAL */
-.modal { animation: fadeIn 0.3s ease; }
-.modal-box { animation: scaleIn 0.3s ease; }
-
-@keyframes fadeIn {
-  from {opacity:0}
-  to {opacity:1}
-}
-@keyframes scaleIn {
-  from {transform: scale(0.9); opacity:0}
-  to {transform: scale(1); opacity:1}
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 </style>
 </head>
@@ -56,61 +31,69 @@ body {
 
 <!-- HEADER -->
 <header class="sticky top-0 bg-white/80 backdrop-blur border-b z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
 
-    <!-- LEFT: LOGO + TITLE -->
     <div class="flex items-center gap-3">
-      <img src="logo.png" class="w-10 h-10 object-contain">
-      <h1 class="brand-title text-xl sm:text-2xl text-black">
+      <img src="logo.png" class="w-10">
+      <h1 class="brand text-xl text-black">
         SkaOne Photography Katalog
       </h1>
     </div>
 
-    <!-- RIGHT: SEARCH -->
-    <div class="relative w-48 sm:w-64">
-      <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-      <input id="searchInput"
-        onkeyup="filterProducts()"
-        type="text"
-        placeholder="Cari..."
-        class="w-full pl-10 pr-3 py-2 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-    </div>
-
+    <input id="searchInput" onkeyup="filterProducts()"
+      placeholder="Cari..."
+      class="px-3 py-2 border rounded-xl text-sm w-48">
   </div>
 </header>
 
-<!-- CONTENT -->
+<!-- KATALOG -->
 <div class="max-w-7xl mx-auto px-4 py-8">
-
-  <!-- GRID -->
-  <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
-
+  <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 </div>
 
 <!-- MODAL -->
-<div id="detailModal" class="hidden modal fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-  <div class="modal-box bg-white rounded-3xl max-w-lg w-full p-6 relative">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+
+  <div class="bg-white rounded-3xl max-w-lg w-full p-6 relative">
 
     <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 text-xl">
-      <i class="fas fa-times"></i>
+      ✕
     </button>
 
-    <img id="modalImage" class="w-full h-56 object-cover rounded-xl mb-4">
+    <!-- SLIDER -->
+    <div class="relative mb-4 overflow-hidden rounded-xl">
+
+      <div id="sliderTrack"
+           class="flex transition-transform duration-500 ease-in-out">
+      </div>
+
+      <button onclick="prevSlide()"
+        class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-2 rounded-full">
+        ❮
+      </button>
+
+      <button onclick="nextSlide()"
+        class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-2 rounded-full">
+        ❯
+      </button>
+
+    </div>
+
+    <!-- DOT -->
+    <div id="sliderDots" class="flex justify-center gap-2 mb-4"></div>
 
     <h2 id="modalTitle" class="text-xl font-bold mb-2"></h2>
-
     <p id="modalDesc" class="text-gray-600 text-sm mb-4"></p>
-
     <p id="modalPrice" class="text-2xl font-bold text-emerald-600 mb-6"></p>
 
     <div class="flex gap-3">
       <button id="btnOrder"
-        class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-medium">
+        class="flex-1 bg-red-500 text-white py-3 rounded-xl">
         Order Now
       </button>
 
       <button onclick="closeModal()"
-        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-medium">
+        class="flex-1 bg-blue-500 text-white py-3 rounded-xl">
         Kembali
       </button>
     </div>
@@ -122,12 +105,16 @@ body {
 let products = [];
 let currentProduct = null;
 
+/* SLIDER STATE */
+let currentSlide = 0;
+let currentGallery = [];
+let autoSlideInterval = null;
+
 /* LOAD DATA */
 async function loadProducts() {
   const res = await fetch('data.json');
   const data = await res.json();
 
-  // Tambahin path images/
   products = data.map(p => ({
     ...p,
     image: "images/" + p.image
@@ -140,12 +127,11 @@ async function loadProducts() {
 function renderCatalog(data) {
   const grid = document.getElementById('catalogGrid');
 
-  grid.innerHTML = data.map((p, i) => `
+  grid.innerHTML = data.map(p => `
     <div onclick="showDetail(${p.id})"
-         class="card bg-white rounded-3xl p-4"
-         style="animation-delay:${i*0.07}s">
+         class="card bg-white rounded-2xl p-4 cursor-pointer">
 
-      <img src="${p.image}" class="w-full h-52 object-cover rounded-xl mb-3">
+      <img src="${p.image}" class="w-full h-48 object-cover rounded-xl mb-3">
 
       <h3 class="font-semibold text-lg">${p.title}</h3>
 
@@ -168,17 +154,109 @@ function showDetail(id) {
 
   currentProduct = p;
 
-  document.getElementById('modalImage').src = p.image;
   document.getElementById('modalTitle').textContent = p.title;
   document.getElementById('modalDesc').textContent = p.description;
   document.getElementById('modalPrice').textContent =
     "Rp " + p.price.toLocaleString('id-ID');
 
+  const gallery = p.gallery && p.gallery.length ? p.gallery : [p.image.replace("images/","")];
+  initSlider(gallery);
+
   document.getElementById('detailModal').classList.remove('hidden');
 }
 
+/* SLIDER INIT */
+function initSlider(gallery) {
+  const track = document.getElementById('sliderTrack');
+  const dots = document.getElementById('sliderDots');
+
+  currentGallery = gallery;
+  currentSlide = 0;
+
+  track.innerHTML = gallery.map(img => `
+    <img src="images/${img}" class="w-full flex-shrink-0 h-56 object-cover">
+  `).join('');
+
+  dots.innerHTML = gallery.map((_, i) => `
+    <div onclick="goToSlide(${i})"
+      class="dot w-2.5 h-2.5 rounded-full bg-gray-300 cursor-pointer"></div>
+  `).join('');
+
+  updateSlider();
+  startAutoSlide();
+  enableSwipe();
+}
+
+/* UPDATE */
+function updateSlider() {
+  const track = document.getElementById('sliderTrack');
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  updateDots();
+}
+
+function updateDots() {
+  const dots = document.querySelectorAll('#sliderDots .dot');
+
+  dots.forEach((dot, i) => {
+    if (i === currentSlide) {
+      dot.classList.add('bg-black','scale-125');
+      dot.classList.remove('bg-gray-300');
+    } else {
+      dot.classList.remove('bg-black','scale-125');
+      dot.classList.add('bg-gray-300');
+    }
+  });
+}
+
+/* NAV */
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % currentGallery.length;
+  updateSlider();
+}
+
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + currentGallery.length) % currentGallery.length;
+  updateSlider();
+}
+
+function goToSlide(i) {
+  currentSlide = i;
+  updateSlider();
+}
+
+/* AUTO */
+function startAutoSlide() {
+  clearInterval(autoSlideInterval);
+  autoSlideInterval = setInterval(nextSlide, 3000);
+}
+
+function stopAutoSlide() {
+  clearInterval(autoSlideInterval);
+}
+
+/* SWIPE */
+function enableSwipe() {
+  const slider = document.getElementById('sliderTrack');
+
+  let startX = 0;
+  let endX = 0;
+
+  slider.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  });
+
+  slider.addEventListener('touchend', e => {
+    endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50) nextSlide();
+    if (endX - startX > 50) prevSlide();
+  });
+}
+
+/* CLOSE */
 function closeModal() {
   document.getElementById('detailModal').classList.add('hidden');
+  stopAutoSlide();
 }
 
 /* ORDER */
