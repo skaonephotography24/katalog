@@ -224,7 +224,22 @@ function filterProducts(){
 /* ORDER */
 btnOrder.onclick = function(){
   if(!currentProduct) return;
-  window.open(`https://wa.me/6285712130175?text=${encodeURIComponent(currentProduct.title)}`);
+
+  const namaPaket = currentProduct.title;
+  const harga = "Rp " + currentProduct.price.toLocaleString('id-ID');
+
+  const pesan = `Halo SkaOne Photography,
+
+Saya tertarik untuk melakukan pemesanan dengan detail berikut:
+
+📸 Paket : ${namaPaket}
+💰 Harga : ${harga}
+
+Mohon informasi lebih lanjut terkait ketersediaan jadwal dan proses booking.
+
+Terima kasih.`;
+
+  window.open(`https://wa.me/6285712130175?text=${encodeURIComponent(pesan)}`);
 };
 
 window.onload = loadProducts;
