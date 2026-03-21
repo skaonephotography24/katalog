@@ -4,40 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Katalog Produk</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
   <style>
-    .card-hover { transition: all 0.3s; }
-    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
-    .modal { animation: pop 0.3s ease-out; }
-    @keyframes pop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    body {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    }
 
-    .btn-preview { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
-    .btn-order { background: linear-gradient(135deg, #10b981, #059669); }
+    /* CARD */
+    .card {
+      transition: all 0.35s ease;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
 
-    .modal-content {
-      max-height: 90vh;
-      overflow-y: auto;
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 40px rgba(0,0,0,0.08);
+    }
+
+    @keyframes fadeUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* IMAGE */
+    .img-wrap {
+      overflow: hidden;
+      border-radius: 1rem;
+    }
+
+    .img-wrap img {
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.08);
+    }
+
+    /* BUTTON */
+    .btn-order {
+      background: linear-gradient(135deg, #10b981, #059669);
+      transition: all 0.3s ease;
+    }
+
+    .btn-order:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(16,185,129,0.3);
+    }
+
+    /* SEARCH */
+    .search-box {
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+      border-color: #10b981;
+    }
+
+    /* HEADER BLUR */
+    header {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.7);
     }
   </style>
 </head>
 
-<body class="bg-gray-50 font-sans">
+<body class="font-sans text-gray-800">
 
-<header class="bg-white shadow-sm sticky top-0 z-50">
+<!-- HEADER -->
+<header class="sticky top-0 z-50 border-b">
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-emerald-600">KatalogKu</h1>
+    <h1 class="text-2xl font-bold text-emerald-600 tracking-tight">
+      KatalogKu
+    </h1>
   </div>
 </header>
 
-<div class="max-w-7xl mx-auto px-4 py-6">
+<div class="max-w-7xl mx-auto px-4 py-8">
 
-  <input id="searchInput" onkeyup="filterProducts()" type="text"
-    placeholder="Cari produk..."
-    class="w-full px-5 py-3 mb-6 rounded-xl border">
+  <!-- SEARCH -->
+  <div class="mb-8">
+    <div class="relative">
+      <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+      <input id="searchInput"
+        onkeyup="filterProducts()"
+        type="text"
+        placeholder="Cari produk..."
+        class="search-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 outline-none text-lg bg-white shadow-sm">
+    </div>
+  </div>
 
-  <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <!-- GRID -->
+  <div id="catalogGrid"
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+  </div>
 
 </div>
 
@@ -49,11 +116,9 @@ let products = [];
 async function loadProducts() {
   try {
     const res = await fetch('data.json');
-
     if (!res.ok) throw new Error('Gagal load');
 
     const data = await res.json();
-
     if (!Array.isArray(data)) throw new Error('Format salah');
 
     products = data;
@@ -69,23 +134,31 @@ async function loadProducts() {
 function renderCatalog(data) {
   const grid = document.getElementById('catalogGrid');
 
-  grid.innerHTML = data.map(p => `
-    <div class="card-hover bg-white rounded-2xl shadow p-4">
-      <img src="${p.image}" class="w-full h-48 object-cover rounded-xl mb-3">
+  grid.innerHTML = data.map((p, i) => `
+    <div class="card bg-white rounded-3xl p-4"
+         style="animation-delay: ${i * 0.08}s">
 
-      <h3 class="font-semibold text-lg">${p.title}</h3>
-      <p class="text-emerald-600 font-bold mb-2">
+      <div class="img-wrap mb-4">
+        <img src="${p.image}" class="w-full h-52 object-cover">
+      </div>
+
+      <h3 class="font-semibold text-lg mb-1 line-clamp-2">
+        ${p.title}
+      </h3>
+
+      <p class="text-emerald-600 text-xl font-bold mb-2">
         Rp ${p.price.toLocaleString('id-ID')}
       </p>
 
-      <p class="text-sm text-gray-600 mb-3">
+      <p class="text-gray-500 text-sm mb-4 leading-relaxed">
         ${p.description.substring(0, 80)}...
       </p>
 
       <button onclick="orderNow(${p.id})"
-        class="btn-order w-full text-white py-2 rounded-xl">
-        Order
+        class="btn-order w-full text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2">
+        <i class="fas fa-bolt"></i> Order Sekarang
       </button>
+
     </div>
   `).join('');
 }
