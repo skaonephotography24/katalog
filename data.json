@@ -1,8 +1,8 @@
 [
   {
     "title": "Paket Akad 1",
-    "price": "Rp 600.000",
-    "image": "https://via.placeholder.com/300",
+    "price": "600.000",
+    "image": "images/akad1.jpg",
     "description": "Paket dokumentasi tanpa album foto | 2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | Dikirim melalui Google Drive",
     "gallery": [
       "https://via.placeholder.com/400",
@@ -11,9 +11,20 @@
   },
   {
     "title": "Paket Akad 2",
-    "price": "Rp 750.000",
-    "image": "https://via.placeholder.com/300",
+    "price": "750.000",
+    "image": "images/akad2.jpg",
     "description": "Paket dokumentasi dengan album foto magnetik yang keren dan modern | 2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | Dikirim via Google Drive",
+    "gallery": [
+      "https://via.placeholder.com/402",
+      "https://via.placeholder.com/403"
+    ]
+  }
+  {
+    "title": "Paket Wedding 1",
+    "price": "800.000",
+    "image": "images/wedding1.jpg",
+    "description": "Paket dokumentasi wedding full acara, mulai dari sesi make up, foto beuaty, sesi akad, sesi foto keluarga, dan resepsi maksimal 6 jam
+    Fasilitas: 2 Fotografer | 1 Crew |  Unlimited Foto | 20 Foto edit | File dikirim melalui Google Drive | Bonus Flasdisk (jika masih tersedia) ",
     "gallery": [
       "https://via.placeholder.com/402",
       "https://via.placeholder.com/403"
