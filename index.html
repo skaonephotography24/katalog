@@ -1,169 +1,174 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katalog Produk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog Produk</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-  <style>
-    body {
-      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-    }
+<style>
+body {
+  background: linear-gradient(135deg, #f8fafc, #eef2f7);
+}
 
-    /* CARD */
-    .card {
-      transition: all 0.35s ease;
-      transform: translateY(20px);
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards;
-    }
+/* CARD */
+.card {
+  transition: all 0.35s ease;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 40px rgba(0,0,0,0.08);
+}
 
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 25px 40px rgba(0,0,0,0.08);
-    }
+@keyframes fadeUp {
+  to { transform: translateY(0); opacity: 1; }
+}
 
-    @keyframes fadeUp {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    /* IMAGE */
-    .img-wrap {
-      overflow: hidden;
-      border-radius: 1rem;
-    }
-
-    .img-wrap img {
-      transition: transform 0.5s ease;
-    }
-
-    .card:hover img {
-      transform: scale(1.08);
-    }
-
-    /* BUTTON */
-    .btn-order {
-      background: linear-gradient(135deg, #10b981, #059669);
-      transition: all 0.3s ease;
-    }
-
-    .btn-order:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(16,185,129,0.3);
-    }
-
-    /* SEARCH */
-    .search-box {
-      transition: all 0.3s ease;
-    }
-
-    .search-box:focus {
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
-      border-color: #10b981;
-    }
-
-    /* HEADER BLUR */
-    header {
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.7);
-    }
-  </style>
+/* MODAL */
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+.modal-box {
+  animation: scaleIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from {opacity:0}
+  to {opacity:1}
+}
+@keyframes scaleIn {
+  from {transform: scale(0.9); opacity:0}
+  to {transform: scale(1); opacity:1}
+}
+</style>
 </head>
 
 <body class="font-sans text-gray-800">
 
 <!-- HEADER -->
-<header class="sticky top-0 z-50 border-b">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-emerald-600 tracking-tight">
-      KatalogKu
-    </h1>
+<header class="sticky top-0 bg-white/70 backdrop-blur border-b z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4">
+    <h1 class="text-2xl font-bold text-emerald-600">KatalogKu</h1>
   </div>
 </header>
 
 <div class="max-w-7xl mx-auto px-4 py-8">
 
   <!-- SEARCH -->
-  <div class="mb-8">
-    <div class="relative">
-      <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-      <input id="searchInput"
-        onkeyup="filterProducts()"
-        type="text"
-        placeholder="Cari produk..."
-        class="search-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 outline-none text-lg bg-white shadow-sm">
-    </div>
-  </div>
+  <input id="searchInput" onkeyup="filterProducts()"
+    placeholder="Cari produk..."
+    class="w-full mb-8 px-5 py-4 rounded-2xl border shadow-sm">
 
   <!-- GRID -->
-  <div id="catalogGrid"
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-  </div>
+  <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
 
 </div>
 
+<!-- MODAL DETAIL -->
+<div id="detailModal" class="hidden modal fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+  <div class="modal-box bg-white rounded-3xl max-w-lg w-full p-6 relative">
+
+    <!-- CLOSE -->
+    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 text-xl">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <img id="modalImage" class="w-full h-56 object-cover rounded-xl mb-4">
+
+    <h2 id="modalTitle" class="text-xl font-bold mb-2"></h2>
+
+    <p id="modalDesc" class="text-gray-600 text-sm mb-4"></p>
+
+    <p id="modalPrice" class="text-2xl font-bold text-emerald-600 mb-6"></p>
+
+    <div class="flex gap-3">
+      <button id="btnOrder"
+        class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-medium">
+        Order Now
+      </button>
+
+      <button onclick="closeModal()"
+        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-medium">
+        Kembali
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <script>
-/* ================= DATA ================= */
 let products = [];
+let currentProduct = null;
 
-/* ================= LOAD JSON ================= */
+/* LOAD DATA */
 async function loadProducts() {
-  try {
-    const res = await fetch('data.json');
-    if (!res.ok) throw new Error('Gagal load');
-
-    const data = await res.json();
-    if (!Array.isArray(data)) throw new Error('Format salah');
-
-    products = data;
-    renderCatalog(products);
-
-  } catch (err) {
-    console.error(err);
-    alert('Gagal memuat data.json');
-  }
+  const res = await fetch('data.json');
+  const data = await res.json();
+  products = data;
+  renderCatalog(products);
 }
 
-/* ================= RENDER ================= */
+/* RENDER */
 function renderCatalog(data) {
   const grid = document.getElementById('catalogGrid');
 
   grid.innerHTML = data.map((p, i) => `
-    <div class="card bg-white rounded-3xl p-4"
-         style="animation-delay: ${i * 0.08}s">
+    <div onclick="showDetail(${p.id})"
+         class="card bg-white rounded-3xl p-4"
+         style="animation-delay:${i*0.07}s">
 
-      <div class="img-wrap mb-4">
-        <img src="${p.image}" class="w-full h-52 object-cover">
-      </div>
+      <img src="${p.image}" class="w-full h-52 object-cover rounded-xl mb-3">
 
-      <h3 class="font-semibold text-lg mb-1 line-clamp-2">
-        ${p.title}
-      </h3>
+      <h3 class="font-semibold text-lg">${p.title}</h3>
 
-      <p class="text-emerald-600 text-xl font-bold mb-2">
+      <p class="text-emerald-600 font-bold mb-2">
         Rp ${p.price.toLocaleString('id-ID')}
       </p>
 
-      <p class="text-gray-500 text-sm mb-4 leading-relaxed">
-        ${p.description.substring(0, 80)}...
+      <p class="text-sm text-gray-500">
+        ${p.description.substring(0,60)}...
       </p>
-
-      <button onclick="orderNow(${p.id})"
-        class="btn-order w-full text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2">
-        <i class="fas fa-bolt"></i> Order Sekarang
-      </button>
 
     </div>
   `).join('');
 }
 
-/* ================= SEARCH ================= */
+/* SHOW DETAIL */
+function showDetail(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+
+  currentProduct = p;
+
+  document.getElementById('modalImage').src = p.image;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.description;
+  document.getElementById('modalPrice').textContent =
+    "Rp " + p.price.toLocaleString('id-ID');
+
+  document.getElementById('detailModal').classList.remove('hidden');
+}
+
+/* CLOSE */
+function closeModal() {
+  document.getElementById('detailModal').classList.add('hidden');
+}
+
+/* ORDER */
+document.getElementById('btnOrder').onclick = function() {
+  if (!currentProduct) return;
+
+  const msg = `Halo, saya ingin pesan:\n${currentProduct.title}\nRp ${currentProduct.price.toLocaleString('id-ID')}`;
+
+  window.open(`https://wa.me/6285712130175?text=${encodeURIComponent(msg)}`);
+};
+
+/* SEARCH */
 function filterProducts() {
   const keyword = document.getElementById('searchInput').value.toLowerCase();
 
@@ -175,17 +180,7 @@ function filterProducts() {
   renderCatalog(filtered);
 }
 
-/* ================= ORDER ================= */
-function orderNow(id) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-
-  const msg = `Halo, saya ingin pesan:\n${p.title}\nRp ${p.price.toLocaleString('id-ID')}`;
-
-  window.open(`https://wa.me/6285712130175?text=${encodeURIComponent(msg)}`);
-}
-
-/* ================= INIT ================= */
+/* INIT */
 window.onload = loadProducts;
 </script>
 
