@@ -6,23 +6,63 @@
 <title>SkaOne Photography</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 <style>
 body {
   font-family: 'Poppins', sans-serif;
   background: #f8fafc;
 }
+
 .brand {
   font-family: 'Playfair Display', serif;
 }
+
+/* CARD */
 .card {
   transition: all 0.3s ease;
 }
 .card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* 🎬 CINEMATIC */
+.cinematic-img {
+  animation: cinematicZoom 8s ease-in-out infinite alternate;
+}
+@keyframes cinematicZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+.cinematic-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+  border-radius: 0.75rem;
+}
+
+/* MODAL */
+.modal-box {
+  animation: cinematicFade 0.5s ease;
+}
+@keyframes cinematicFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* SLIDER SMOOTH */
+#sliderTrack {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 </style>
 </head>
@@ -54,7 +94,7 @@ body {
 <!-- MODAL -->
 <div id="detailModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
 
-  <div class="bg-white rounded-3xl max-w-lg w-full p-6 relative">
+  <div class="modal-box bg-white rounded-3xl max-w-lg w-full p-6 relative">
 
     <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 text-xl">
       ✕
@@ -63,8 +103,7 @@ body {
     <!-- SLIDER -->
     <div class="relative mb-4 overflow-hidden rounded-xl">
 
-      <div id="sliderTrack"
-           class="flex transition-transform duration-500 ease-in-out">
+      <div id="sliderTrack" class="flex">
       </div>
 
       <button onclick="prevSlide()"
@@ -165,7 +204,7 @@ function showDetail(id) {
   document.getElementById('detailModal').classList.remove('hidden');
 }
 
-/* SLIDER INIT */
+/* INIT SLIDER */
 function initSlider(gallery) {
   const track = document.getElementById('sliderTrack');
   const dots = document.getElementById('sliderDots');
@@ -174,24 +213,35 @@ function initSlider(gallery) {
   currentSlide = 0;
 
   track.innerHTML = gallery.map(img => `
-    <img src="images/${img}" class="w-full flex-shrink-0 h-56 object-cover">
+    <div class="w-full flex-shrink-0 h-56 relative cinematic-overlay">
+      <img src="images/${img}" class="cinematic-img w-full h-full object-cover">
+    </div>
   `).join('');
 
   dots.innerHTML = gallery.map((_, i) => `
     <div onclick="goToSlide(${i})"
-      class="dot w-2.5 h-2.5 rounded-full bg-gray-300 cursor-pointer"></div>
+      class="dot w-2.5 h-2.5 rounded-full bg-gray-300 cursor-pointer transition"></div>
   `).join('');
 
   updateSlider();
   startAutoSlide();
   enableSwipe();
+  enableHoverPause();
 }
 
 /* UPDATE */
 function updateSlider() {
   const track = document.getElementById('sliderTrack');
   track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
   updateDots();
+
+  // reset animasi cinematic
+  document.querySelectorAll('.cinematic-img').forEach(img => {
+    img.style.animation = 'none';
+    img.offsetHeight;
+    img.style.animation = '';
+  });
 }
 
 function updateDots() {
@@ -213,12 +263,10 @@ function nextSlide() {
   currentSlide = (currentSlide + 1) % currentGallery.length;
   updateSlider();
 }
-
 function prevSlide() {
   currentSlide = (currentSlide - 1 + currentGallery.length) % currentGallery.length;
   updateSlider();
 }
-
 function goToSlide(i) {
   currentSlide = i;
   updateSlider();
@@ -229,7 +277,6 @@ function startAutoSlide() {
   clearInterval(autoSlideInterval);
   autoSlideInterval = setInterval(nextSlide, 3000);
 }
-
 function stopAutoSlide() {
   clearInterval(autoSlideInterval);
 }
@@ -251,6 +298,14 @@ function enableSwipe() {
     if (startX - endX > 50) nextSlide();
     if (endX - startX > 50) prevSlide();
   });
+}
+
+/* HOVER PAUSE */
+function enableHoverPause() {
+  const slider = document.getElementById('sliderTrack');
+
+  slider.addEventListener('mouseenter', stopAutoSlide);
+  slider.addEventListener('mouseleave', startAutoSlide);
 }
 
 /* CLOSE */
@@ -280,7 +335,6 @@ function filterProducts() {
   renderCatalog(filtered);
 }
 
-/* INIT */
 window.onload = loadProducts;
 </script>
 
