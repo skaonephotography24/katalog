@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "Paket Akad 1",
+    "title": "Paket Akad Standar",
     "price": 600000,
     "image": "akad1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | Dikirim melalui Google Drive",
@@ -9,7 +9,7 @@
   },
   {
     "id": 2,
-    "title": "Paket Akad 2",
+    "title": "Paket Akad Premium",
     "price": 750000,
     "image": "akad2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | Magnetic Foto Album isi 40 gambar | Dikirim via Google Drive",
@@ -17,7 +17,7 @@
   },
   {
     "id": 3,
-    "title": "Paket Wedding 1",
+    "title": "Paket Wedding Standar",
     "price": 800000,
     "image": "wedding1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | File dikirim via Google Drive",
@@ -25,7 +25,7 @@
   },
   {
     "id": 4,
-    "title": "Paket Wedding 2",
+    "title": "Paket Wedding Premium",
     "price": 1000000,
     "image": "wedding2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Magnetic Album Foto | Cetak 10R plus Figura | File dikirim via Google Drive | Bonus Flasdisk",
@@ -49,7 +49,7 @@
   },
   {
     "id": 7,
-    "title": "Paket Ngunduh Mantu/Boyongan 1",
+    "title": "Paket Ngunduh Mantu/Boyongan Standar",
     "price": 600000,
     "image": "boyongan1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | File dikirim via Google Drive",
@@ -57,7 +57,7 @@
   },
   {
     "id": 8,
-    "title": "Paket Ngunduh Mantu/Boyongan 2",
+    "title": "Paket Ngunduh Mantu/Boyongan Premium",
     "price": 750000,
     "image": "boyongan2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Album Foto magnetic | File dikirim via Google Drive",
@@ -65,7 +65,7 @@
   },
   {
     "id": 9,
-    "title": "Paket Wisuda 1",
+    "title": "Paket Wisuda Hemat",
     "price": 250000,
     "image": "wisuda1.jpg",
     "description": "1 Fotografer | 1 Wisudawan + Keluarga dan teman | Unlimited foto | 45 Menit sesi foto | 20 Foto edit | File dikirim via Google Drive",
@@ -73,7 +73,7 @@
   },
   {
     "id": 10,
-    "title": "Paket Wisuda 2",
+    "title": "Paket Wisuda Standar",
     "price": 300000,
     "image": "wisuda2.jpg",
     "description": "1 Fotografer | 1 Wisudawan + Keluarga dan teman | Unlimited foto | 60 menit sesi foto | 25 Foto edit | File dikirim via Google Drive",
@@ -81,7 +81,7 @@
   },
   {
     "id": 11,
-    "title": "Paket Wisuda 3",
+    "title": "Paket Wisuda Premium",
     "price": 400000,
     "image": "wisuda3.jpg",
     "description": "2 Fotografer | 1 Wisudawan + keluarga dan teman | Unlimited foto | 90 menit sesi foto | 30 Foto edit | File dikirim via Google Drive",
