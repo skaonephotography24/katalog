@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Paket Akad Standar",
-    "price": 600000,
+    "price": 650000,
     "image": "akad1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | Dikirim melalui Google Drive",
     "gallery": ["akad1.jpg", "akad12.jpg", "akad13.jpg"]
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "title": "Paket Akad Premium",
-    "price": 750000,
+    "price": 800000,
     "image": "akad2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | Magnetic Foto Album isi 40 gambar | Dikirim via Google Drive",
     "gallery": ["akad2.jpg", "akad22.jpg", "akad23.jpg"]
@@ -18,7 +18,7 @@
   {
     "id": 3,
     "title": "Paket Wedding Standar",
-    "price": 800000,
+    "price": 900000,
     "image": "wedding1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | File dikirim via Google Drive",
     "gallery": ["wedding1.jpg", "wedding12.jpg", "wedding13.jpg"]
@@ -26,7 +26,7 @@
   {
     "id": 4,
     "title": "Paket Wedding Premium",
-    "price": 1000000,
+    "price": 1300000,
     "image": "wedding2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Magnetic Album Foto | Cetak 10R plus Figura | File dikirim via Google Drive | Bonus Flasdisk",
     "gallery": ["wedding2.jpg", "wedding22.jpg", "wedding23.jpg"]
@@ -49,16 +49,16 @@
   },
   {
     "id": 7,
-    "title": "Paket Ngunduh Mantu/Boyongan Standar",
-    "price": 600000,
+    "title": "Paket Ngunduh Mantu Standar",
+    "price": 650000,
     "image": "boyongan1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | File dikirim via Google Drive",
     "gallery": ["boyongan1.jpg", "boyongan12.jpg", "boyongan13.jpg"]
   },
   {
     "id": 8,
-    "title": "Paket Ngunduh Mantu/Boyongan Premium",
-    "price": 750000,
+    "title": "Paket Ngunduh Mantu Premium",
+    "price": 800000,
     "image": "boyongan2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Album Foto magnetic | File dikirim via Google Drive",
     "gallery": ["boyongan2.jpg", "boyongan22.jpg", "boyongan23.jpg"]
@@ -84,7 +84,7 @@
     "title": "Paket Wisuda Premium",
     "price": 400000,
     "image": "wisuda3.jpg",
-    "description": "1 Fotografer | 1 Wisudawan + keluarga dan teman | Unlimited foto | 90 menit sesi foto | 30 Foto edit | File dikirim via Google Drive",
+    "description": "2 Fotografer | 1 Wisudawan + keluarga dan teman | Unlimited foto | 90 menit sesi foto | 30 Foto edit | File dikirim via Google Drive",
     "gallery": ["wisuda3.jpg", "wisuda32.jpg", "wisuda33.jpg"]
   }
 ]
