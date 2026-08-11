@@ -86,5 +86,21 @@
     "image": "wisuda3.jpg",
     "description": "2 Fotografer | 1 Wisudawan + keluarga dan teman | Unlimited foto | 90 menit sesi foto | 30 Foto edit | File dikirim via Google Drive",
     "gallery": ["wisuda3.jpg", "wisuda32.jpg", "wisuda33.jpg"]
+  },
+  {
+    "id": 12,
+    "title": "Dokumentasi",
+    "price": 100000,
+    "image": "dokumentasi1.jpg",
+    "description": "1 Fotografer | Unlimited foto | 60 menit sesi foto | File dikirim via Google Drive",
+    "gallery": ["dokumentasi1.jpg", "dokumentasi2.jpg", "dokumentasi3.jpg"]
+  },
+  {
+    "id": 13,
+    "title": "Interior dan Eksterior",
+    "price": 500000,
+    "image": "in1.jpg",
+    "description": "1 Fotografer | 1 Gedung | 30 Foto | File dikirim via Google Drive",
+    "gallery": ["in1.jpg", "in22.jpg", "in33.jpg"]
   }
 ]
