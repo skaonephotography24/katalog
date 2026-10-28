@@ -18,14 +18,14 @@
   {
     "id": 3,
     "title": "Paket Wedding Standar",
-    "price": 900000,
+    "price": 1000000,
     "image": "wedding1.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 20 Foto edit | File dikirim via Google Drive",
     "gallery": ["wedding1.jpg", "wedding12.jpg", "wedding13.jpg"]
   },
   {
     "id": 4,
-    "title": "Paket Wedding Premium",
+    "title": "Paket Wedding Gold",
     "price": 1300000,
     "image": "wedding2.jpg",
     "description": "2 Fotografer | 1 Crew | Unlimited foto | 30 Foto edit | Magnetic Album Foto | Cetak 10R plus Figura | File dikirim via Google Drive | Bonus Flasdisk",
@@ -102,5 +102,29 @@
     "image": "in1.jpg",
     "description": "1 Fotografer | 1 Gedung | 30 Foto | File dikirim via Google Drive",
     "gallery": ["in1.jpg", "in2.jpg", "in3.jpg"]
+  }
+  {
+    "id": 14,
+    "title": "MUA AKAD",
+    "price": 2500000,
+    "image": "muaakad.jpg",
+    "description": "Make-up sepasang pengantin, make-up dua ibu, bunga melati asli, softlens, handbouquet, busana pengantin, busana ibu",
+    "gallery": ["muaakad.jpg", "muaakad2.jpg", "muaakad3.jpg"]
+  }
+  {
+    "id": 15,
+    "title": "MUA RESEPSI",
+    "price": 3750000,
+    "image": "muaresepsi.jpg",
+    "description": "Make-up sepasang pengantin, make-up dua ibu dan dua bapak, make-up buku tamu, fakenail, softlens, hand bouquet, fresh jasmin",
+    "gallery": ["muaresepsi.jpg", "muaresepsi2.jpg", "muaresepsi3.jpg"]
+  }
+  {
+    "id": 16,
+    "title": "MUA Paket ADAD dan RESEPSI",
+    "price": 4500000,
+    "image": "in1.jpg",
+    "description": "Make-up sepasang pengantin akad dan resepsi, make-up dua ibu dan dua bapak, make-up buku tamu 4 orang, fakenail, bouquet, softlens",
+    "gallery": ["muaakadresepsi.jpg", "muaakadresepsi2.jpg", "muaakadresepsi3.jpg"]
   }
 ]
